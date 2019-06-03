@@ -5,6 +5,8 @@
 library(dplyr)
 
 ## setwd("/Users/derek/Desktop/R Programming/Coursera — Getting & Cleaning Data")
+## The above line sets the working directory for my local system
+## Download the zipped file, unzip the file if it doesn't already exist
 filename <- "dataset.zip"
 if(!file.exists(filename)) {
   url <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
@@ -14,18 +16,24 @@ if(!file.exists("UCI HAR Dataset")) {
   unzip("dataset.zip")
 }
 
+## read in the training and test data from the UCI HAR Dataset folder
+
+## read in the training data numerical observations, activities, and subjects
 trainDataObs <- read.table("./UCI HAR Dataset/train/X_train.txt") 
 trainActivities <- read.table("./UCI HAR Dataset/train/y_train.txt")
 trainSubjects <- read.table("./UCI HAR Dataset/train/subject_train.txt")
 colnames(trainActivities) <- "activity"
 colnames(trainSubjects) <- "subject"
 
+## read in the features which are variable names for 
+## all the numerical observations (training and test data)
 features <- read.table("./UCI HAR Dataset/features.txt")
 dataVariableNames <- as.character(features[,2])
-## create a vector of dataframe variable names
+## create a vector of dataframe variable names 
 
 colnames(trainDataObs) <- dataVariableNames
 
+## read in the test data numerical observations, activities, and subjects
 testDataObs <- read.table("./UCI HAR Dataset/test/X_test.txt")
 testActivities <- read.table("./UCI HAR Dataset/test/y_test.txt")
 testSubjects <- read.table("./UCI HAR Dataset/test/subject_test.txt")
@@ -40,7 +48,6 @@ trainData <- cbind(trainSubjects,trainActivities,trainDataObs)
 testData <- cbind(testSubjects,testActivities,testDataObs)
 mergedData <- rbind(trainData,testData)
 ## merge together training and test sets to create one data set
-## 
 
 ## clean up the column names by eliminating special characters: "-", "()"
 ## gsub("-","",names(mergedData))
